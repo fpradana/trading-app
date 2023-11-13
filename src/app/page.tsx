@@ -8,7 +8,7 @@ import priceDb from "./priceDb";
 import bitcoin from "../assets/bitcoin.png";
 import { ApexOptions } from "apexcharts";
 import dynamic from 'next/dynamic';
-const Chart = dynamic(() => import('react-apexcharts'), {
+const DynamicApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
@@ -86,7 +86,7 @@ export default function Home() {
       setServerIp(window.location.hostname);
     }
 
-    const newSocket = io("/socket");
+    const newSocket = io(`http://${serverIp}:3333`);
     setSocket(newSocket);
 
     newSocket.on("connect", () => {

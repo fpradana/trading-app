@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import io from "socket.io-client";
 import Image from "next/image";
-import Chart from "react-apexcharts";
 import moment from "moment";
 import priceDb from "./priceDb";
 import bitcoin from "../assets/bitcoin.png";
 import { ApexOptions } from "apexcharts";
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), {
+  ssr: false,
+});
 
 export default function Home() {
   const { state } = priceDb();
@@ -17,30 +20,30 @@ export default function Home() {
   const [buyNominal, setBuyNominal] = useState(0);
   const [buyTarget, setBuyTarget] = useState(0);
   const [sellTarget, setSellTarget] = useState(0);
-  const [graphData, setGraphData] = useState<any>(state.series1)
+  const [graphData, setGraphData] = useState<any>(state.series1);
   const [sellQty, setSellQty] = useState(0);
   const [socket, setSocket] = useState<any>(null);
   const [orderBook, setOrderBook] = useState<any>({});
-  const [serverIp, setServerIp] = useState<any>(window.location.hostname);
-  const getGraphData = (index:any) => {
+  const [serverIp, setServerIp] = useState<any>("");
+  const getGraphData = (index: any) => {
     switch (index) {
       case 1:
         setGraphData(state.series2);
-        break
+        break;
       case 2:
         setGraphData(state.series3);
-        break
+        break;
       case 3:
         setGraphData(state.series4);
-        break
+        break;
       case 4:
         setGraphData(state.series5);
-        break
+        break;
       default:
         setGraphData(state.series1);
-        break
+        break;
     }
-  }
+  };
 
   const getBTCBuyAmount = () =>
     buyNominal > 0 && buyTarget > 0
@@ -79,6 +82,10 @@ export default function Home() {
   };
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      setServerIp(window.location.hostname);
+    }
+
     const newSocket = io(`http://${serverIp}:3333`);
     setSocket(newSocket);
 
@@ -142,18 +149,23 @@ export default function Home() {
                   </span>
                 </p>
               </p>
-              <Chart
-                options={state.options as ApexOptions}
-                series={graphData}
-                type="candlestick"
-                height={500}
-                width="100%"
-              />
+              {typeof window !== "undefined" && (
+                <Chart
+                  options={state.options as ApexOptions}
+                  series={graphData}
+                  type="candlestick"
+                  height={500}
+                  width="100%"
+                />
+              )}
 
               <div className="lg:pl-8 lg:pr-8 pl-4 pr-4 mt-8 flex w-full gap-2 lg:gap-4">
                 {rangeOption.map((item, index) => (
                   <p
-                    onClick={() => {setRange(index);getGraphData(index)}}
+                    onClick={() => {
+                      setRange(index);
+                      getGraphData(index);
+                    }}
                     className={`basis-1/5 font-semibold text-xs lg:text-md text-center cursor-pointer ${
                       range === index && "bg-[#0C68F4] text-white"
                     } rounded-lg pt-2 pb-2`}

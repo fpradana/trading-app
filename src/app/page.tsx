@@ -8,7 +8,7 @@ import priceDb from "./priceDb";
 import bitcoin from "../assets/bitcoin.png";
 import { ApexOptions } from "apexcharts";
 import dynamic from 'next/dynamic';
-const DynamicApexChart = dynamic(() => import('react-apexcharts'), {
+const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 

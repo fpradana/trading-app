@@ -3,23 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"npm run next\" \"npm run socket-server\"",
+    "next": "next",
+    "socket-server": "node server.js",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "NODE_ENV=production node server.js",
+    "lint": "next lint",
+    "server": "node server"
   },
   "dependencies": {
+    "apexcharts": "^3.44.0",
+    "cors": "^2.8.5",
+    "ip": "^1.1.8",
+    "moment": "^2.29.4",
+    "network": "^0.6.1",
+    "next": "14.0.1",
+    "os": "^0.1.2",
     "react": "^18",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18",
-    "next": "14.0.1"
+    "react-responsive": "^9.0.2",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "concurrently": "^8.2.2",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
   }
 }

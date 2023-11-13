@@ -86,7 +86,7 @@ export default function Home() {
       setServerIp(window.location.hostname);
     }
 
-    const newSocket = io(`http://${serverIp}:3333`);
+    const newSocket = io("/socket");
     setSocket(newSocket);
 
     newSocket.on("connect", () => {

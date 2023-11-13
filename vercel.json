@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "socket.js",
+        "use": "@now/node"
+      }
+    ],
+    "routes": [
+      { "handle": "filesystem" },
+      { "src": "/socket", "dest": "/socket.js" }
+    ]
+  }
+  

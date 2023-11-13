@@ -1,0 +1,13 @@
+{
+    "routes": [
+      { "handle": "filesystem" },
+      {
+        "src": "/socket",
+        "headers": {
+          "Upgrade": "websocket"
+        },
+        "use": "@now/node"
+      }
+    ]
+  }
+  

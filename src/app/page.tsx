@@ -86,7 +86,7 @@ export default function Home() {
       setServerIp(window.location.hostname);
     }
 
-    const newSocket = io(`http://${serverIp}:3333`);
+    const newSocket = io(`https://dana-trading-app.as.r.appspot.com`);
     setSocket(newSocket);
 
     newSocket.on("connect", () => {
